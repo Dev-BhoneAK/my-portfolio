@@ -1,0 +1,121 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Theme colors. Components reach them only through Tailwind classes like
+   bg-page or text-heading (mapped in tailwind.config.js), so each theme is
+   just one block of values below: :root is light, .dark overrides it.
+   To restyle a theme, change its values here. A new token also needs an
+   entry in tailwind.config.js. */
+@layer base {
+  :root {
+    /* Surfaces */
+    --color-page: #f5f7fb;
+    --color-surface: #ffffff; /* cards, screenshot frames, floating buttons */
+    --color-subtle: #ffffff; /* chips, icon tiles, the status pill, hover fills */
+    --color-grid: rgb(15 23 42 / 0.05); /* lines of the hero's grid */
+
+    /* Borders */
+    --color-line: #e2e8f0;
+    --color-line-strong: #7c8aa0; /* outlined buttons; 3.3:1 on --color-page */
+    --color-line-hover: #cbd5e1;
+
+    /* Text */
+    --color-heading: #0f172a;
+    --color-label: #334155; /* dates, chips, screenshot names */
+    --color-control: #475569; /* round icon buttons, the status pill */
+    --color-body: #475569;
+    --color-muted: #607086; /* eyebrows, captions; AA on --color-page */
+    --color-highlight: var(--color-heading); /* outlined buttons and icons on hover */
+
+    /* Brand */
+    --color-accent: #0369a1; /* job title, links, logo */
+    --color-accent-hover: #0c4a6e;
+    --color-marker: #0284c7; /* past roles on the timelines */
+    --color-action: #db2777; /* main button, current role */
+    --color-action-hover: #be185d;
+    --color-on-action: #ffffff;
+    --color-focus: #0ea5e9;
+
+    /* Status */
+    --color-success: #10b981;
+    --color-success-text: #047857;
+
+    /* Phones and shadows */
+    --color-device: #0f172a; /* phone bezels */
+    --color-device-edge: transparent;
+    --color-shadow-card: rgb(15 23 42 / 0.05);
+    --color-shadow-float: rgb(15 23 42 / 0.1);
+    --color-shadow-screen: rgb(0 0 0 / 0.1); /* phone shots in Experience */
+
+    /* Derived from the colors above, in every theme. No need to edit. */
+    --color-marker-line: color-mix(in srgb, var(--color-marker) 40%, transparent);
+    --color-marker-bullet: color-mix(in srgb, var(--color-marker) 50%, transparent);
+    --color-action-glow: color-mix(in srgb, var(--color-action) 20%, transparent);
+    --color-success-bg: color-mix(in srgb, var(--color-success) 10%, transparent);
+    --color-success-ring: color-mix(in srgb, var(--color-success) 20%, transparent);
+  }
+
+  .dark {
+    /* Surfaces */
+    --color-page: #0a1a2f;
+    --color-surface: #112240;
+    --color-subtle: rgb(255 255 255 / 0.05);
+    --color-grid: rgb(56 189 248 / 0.06);
+
+    /* Borders */
+    --color-line: rgb(255 255 255 / 0.1);
+    --color-line-strong: #64748b; /* 3.7:1, just under the pink button */
+    --color-line-hover: rgb(255 255 255 / 0.2);
+
+    /* Text */
+    --color-heading: #ffffff;
+    --color-label: #e2e8f0;
+    --color-control: #cbd5e1;
+    --color-body: #94a3b8;
+    --color-muted: #94a3b8;
+    --color-highlight: var(--color-accent);
+
+    /* Brand */
+    --color-accent: #38bdf8;
+    --color-accent-hover: #7dd3fc;
+    --color-marker: #38bdf8;
+    --color-action: #db2777;
+    --color-action-hover: #ec4899;
+    --color-on-action: #ffffff;
+    --color-focus: #0ea5e9;
+
+    /* Status */
+    --color-success: #34d399;
+    --color-success-text: #6ee7b7;
+
+    /* Phones and shadows */
+    --color-device: #000000;
+    --color-device-edge: rgb(255 255 255 / 0.1);
+    --color-shadow-card: rgb(0 0 0 / 0.2);
+    --color-shadow-float: rgb(0 0 0 / 0.3);
+    --color-shadow-screen: rgb(0 0 0 / 0.1);
+  }
+}
+
+/* .transition-background {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+
+html {
+  color-scheme: initial !important;
+} */
+
+/* Faint grid behind the hero, faded out toward the edges. */
+.hero-grid {
+  background-image: linear-gradient(to right, var(--color-grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--color-grid) 1px, transparent 1px);
+  background-size: 56px 56px;
+  -webkit-mask-image: radial-gradient(ellipse at 70% 45%, #000 15%, transparent 65%);
+  mask-image: radial-gradient(ellipse at 70% 45%, #000 15%, transparent 65%);
+}
