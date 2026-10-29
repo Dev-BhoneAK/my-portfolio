@@ -23,8 +23,9 @@ const facts = [
     { label: "Based in", value: "Yangon, Myanmar", detail: "UTC+6:30" },
 ];
 
-// Same entries as the CERTIFICATIONS block in
-// public/BHONE AUNG KYAW - Resume.pdf.
+// The certifications from the CERTIFICATIONS block in
+// public/BHONE AUNG KYAW - Resume.pdf. Its courses (CS50x and Udacity's React
+// Nanodegree) stay off the card to keep it short.
 const certifications = [
     {
         name: "AWS Certified Solutions Architect – Associate",

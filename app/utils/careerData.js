@@ -18,8 +18,8 @@ const careerData = [
         start: "2026-04",
         end: null,
         highlights: [
-            "Built Biz-Copilot for Triumsoft, a 24/7 sales automation platform that helps businesses capture orders, validate payments, and sync inventory in real time.",
-            "Built Eurus Mind for Triumsoft, a voice-first daily journal for Burmese speakers. Users talk about their day, and AI organizes it into a clear daily record.",
+            "Built Biz-Copilot, a 24/7 sales automation platform that helps businesses capture orders, validate payments, and sync inventory in real time.",
+            "Built Eurus Mind, a voice-first daily journal for Burmese speakers. Users talk about their day, and AI organizes it into a clear daily record.",
         ],
         stack: ["NestJS", "React Native", "PostgreSQL"],
         links: [

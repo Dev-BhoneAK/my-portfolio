@@ -13,7 +13,8 @@ import QuranOfflineAudio from "../../public/projects/quran-mm/offline-audio.png"
 import QuranMenu from "../../public/projects/quran-mm/menu.png";
 
 // Kept in sync with the PROJECTS block of public/BHONE AUNG KYAW - Resume.pdf,
-// in the same order.
+// but not its order: the resume lists AWA, still in development, last, and
+// here it sits third.
 // - Each project has three raw phone screenshots, portrait 9:19.5 (about
 //   1080x2340). The first one is what mobile visitors see first.
 // - A desktop project (device: "desktop") has one raw desktop screenshot
@@ -26,7 +27,7 @@ import QuranMenu from "../../public/projects/quran-mm/menu.png";
 const projectsData = [
     {
         name: "Biz-Copilot",
-        kind: "Freelance project for Triumsoft",
+        kind: "Freelance project",
         description:
             "A 24/7 sales automation platform that helps businesses capture orders, validate payments, and sync inventory in real time.",
         stack: ["NestJS", "React Native", "PostgreSQL"],
@@ -54,7 +55,7 @@ const projectsData = [
     },
     {
         name: "Eurus Mind",
-        kind: "Freelance project for Triumsoft",
+        kind: "Freelance project",
         description:
             "A voice-first daily journal for Burmese speakers. Users talk about their day, and AI organizes it into a clear daily record.",
         stack: ["NestJS", "React Native", "PostgreSQL"],
