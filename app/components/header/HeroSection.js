@@ -8,6 +8,7 @@ import { SiAmazonaws } from "react-icons/si";
 
 import EmailLink from "@/app/components/common/EmailLink";
 import careerData, { roleId } from "@/app/utils/careerData";
+import { revealClassName, revealDelay } from "@/app/utils/motion";
 import { emailLink, githubLink, linkedinLink } from "@/app/utils/socialLinks";
 import { eyebrowClassName, focusRing } from "@/app/utils/styles";
 
@@ -40,12 +41,6 @@ const certifications = [
         Icon: FiAward,
     },
 ];
-
-// The entrance runs in CSS rather than framer-motion, so it plays as soon as
-// the page paints instead of after JavaScript loads. Items start 80ms apart.
-// Reduced motion keeps the fade and drops the movement, as framer-motion did.
-const revealClassName = "animate-fade-up motion-reduce:animate-fade-in";
-const revealDelay = (step) => ({ animationDelay: `${100 + step * 80}ms` });
 
 export default function HeroSection() {
     return (

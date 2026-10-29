@@ -4,7 +4,7 @@ import { FiTrendingUp } from "react-icons/fi";
 
 import ExternalLink from "@/app/components/common/ExternalLink";
 import { roleId } from "@/app/utils/careerData";
-import { revealVariants } from "@/app/utils/motion";
+import { revealOnScroll } from "@/app/utils/motion";
 import { chipClassName } from "@/app/utils/styles";
 import Screenshot from "./Screenshot";
 
@@ -68,10 +68,7 @@ export default function CareerItem({ role, isLast }) {
     <motion.li
       id={roleId(role)}
       className="relative grid scroll-mt-12 pb-16 last:pb-0 lg:grid-cols-[11rem_minmax(0,1fr)] lg:pb-20"
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "0px 0px -10% 0px" }}
-      variants={revealVariants}
+      {...revealOnScroll}
     >
       {!isLast && (
         <span

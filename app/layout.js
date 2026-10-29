@@ -2,6 +2,7 @@ import "./globals.css";
 import { League_Spartan } from "next/font/google";
 
 import Providers from "@/app/components/Providers";
+import { siteUrl } from "@/app/utils/site";
 const leagueSpartan = League_Spartan({ subsets: ["latin"] });
 
 const description =
@@ -10,7 +11,7 @@ const description =
 // Link previews (LinkedIn, X, chat apps) are built from these tags. The card
 // image is app/opengraph-image.jsx.
 export const metadata = {
-  metadataBase: new URL("https://www.bhoneak.dev"),
+  metadataBase: new URL(siteUrl),
   title: "Bhone Aung Kyaw",
   description,
   openGraph: {

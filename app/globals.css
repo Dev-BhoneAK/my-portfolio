@@ -42,8 +42,9 @@
     --color-success-text: #047857;
 
     /* Phones and shadows */
-    --color-device: #0f172a; /* phone bezels */
+    --color-device: #0f172a; /* phone bezels, browser windows */
     --color-device-edge: transparent;
+    --color-device-dot: #475569; /* the dots on a browser window's bar */
     --color-shadow-card: rgb(15 23 42 / 0.05);
     --color-shadow-float: rgb(15 23 42 / 0.1);
     --color-shadow-screen: rgb(0 0 0 / 0.1); /* phone shots in Experience */
@@ -92,9 +93,48 @@
     /* Phones and shadows */
     --color-device: #000000;
     --color-device-edge: rgb(255 255 255 / 0.1);
+    --color-device-dot: rgb(255 255 255 / 0.2);
     --color-shadow-card: rgb(0 0 0 / 0.2);
     --color-shadow-float: rgb(0 0 0 / 0.3);
     --color-shadow-screen: rgb(0 0 0 / 0.1);
+  }
+
+  /* Case studies. Each one's product color, used only on visuals of the
+     product itself: blood-type chips, flow step numbers, the markers on
+     annotated screens and the glow behind the cover. Links, buttons and icons
+     keep the colors above. The case study's page wraps everything in its
+     class (case-blood-help, case-awa). The fill is the product's own color in
+     both themes; text gets a shade that reads on each theme's page. */
+  .case-blood-help {
+    --color-product: #d13e2f; /* white text on it: 4.7:1 */
+    --color-product-text: #b5362a; /* 5.6:1 on --color-page */
+    --color-on-product: #ffffff;
+  }
+
+  .dark .case-blood-help {
+    --color-product-text: #ef6b5e; /* 5.8:1 on --color-page */
+  }
+
+  /* AWA's periwinkle, with the app's own dark background as text on it. */
+  .case-awa {
+    --color-product: #8ea2ff; /* #14171e text on it: 7.5:1 */
+    --color-product-text: #4a5bd4; /* 5.2:1 on --color-page */
+    --color-on-product: #14171e;
+  }
+
+  .dark .case-awa {
+    --color-product-text: #8ea2ff; /* 7.3:1 on --color-page */
+  }
+
+  /* Derived from the product color in every theme. No need to edit. */
+  .case-study {
+    --color-product-soft: color-mix(in srgb, var(--color-product) 10%, transparent);
+    --color-product-glow: color-mix(in srgb, var(--color-product) 14%, transparent);
+  }
+
+  .dark .case-study {
+    --color-product-soft: color-mix(in srgb, var(--color-product) 18%, transparent);
+    --color-product-glow: color-mix(in srgb, var(--color-product) 24%, transparent);
   }
 }
 
@@ -118,4 +158,12 @@ html {
   background-size: 56px 56px;
   -webkit-mask-image: radial-gradient(ellipse at 70% 45%, #000 15%, transparent 65%);
   mask-image: radial-gradient(ellipse at 70% 45%, #000 15%, transparent 65%);
+}
+
+/* Behind the phones or the browser window on a case study's cover: a faint
+   glow of the product's color on the card surface. It reaches past them, so
+   it shows around them, and fades out before the card's corners. */
+.product-stage {
+  background: radial-gradient(80% 75% at 50% 55%, var(--color-product-glow), transparent),
+    var(--color-surface);
 }

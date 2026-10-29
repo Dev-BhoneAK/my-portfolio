@@ -110,8 +110,9 @@ const profiles = {
   [xLink.href]: "x",
 };
 
-// The part of the page an element is in: the hero (the header), a section's
-// id (work, projects) or the footer.
+// The part of the page an element is in: the hero (the header, which on a
+// case study holds its cover), a section's id (work, projects, a case
+// study's problem…) or the footer.
 function sectionOf(element) {
   const area = element.closest("header, section[id], footer");
   if (!area) return undefined;
@@ -160,7 +161,19 @@ function eventForLink(link) {
       { section, entry_id, link_text: labelOf(link), link_url: link.href },
     ];
   }
-  return null;
+  // Another page of the site: a case study, or back home.
+  const caseStudy = link.pathname.match(/^\/projects\/([^/]+)/)?.[1];
+  if (caseStudy) {
+    return ["case_study_click", { section, entry_id, case_study: caseStudy }];
+  }
+  return [
+    "nav_click",
+    {
+      section,
+      target: link.hash.slice(1) || link.pathname,
+      link_text: labelOf(link),
+    },
+  ];
 }
 
 // Views count once per page load, even if consent is withdrawn and given
@@ -201,7 +214,7 @@ export function startTracking() {
     { threshold: 0.5 },
   );
   document
-    .querySelectorAll("#work-heading, #projects-heading, footer")
+    .querySelectorAll("section[id] h2[id$='-heading'], footer")
     .forEach((element) => sectionObserver.observe(element));
 
   const entryObserver = new IntersectionObserver(

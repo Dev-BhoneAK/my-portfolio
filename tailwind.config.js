@@ -64,7 +64,16 @@ module.exports = {
       device: {
         DEFAULT: token("device"),
         edge: token("device-edge"),
+        dot: token("device-dot"),
       },
+      // Case-study pages only: the product's own color, which each case
+      // study's class sets in globals.css.
+      product: {
+        DEFAULT: token("product"),
+        text: token("product-text"),
+        soft: token("product-soft"),
+      },
+      "on-product": token("on-product"),
     },
     extend: {
       borderColor: {

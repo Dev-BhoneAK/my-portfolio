@@ -1,4 +1,4 @@
-import Image from "next/image";
+import PhoneFrame from "@/app/components/common/PhoneFrame";
 
 // A project's screenshots as phones on a tinted stage. Below xs they scroll
 // sideways, about one and a half at a time, like an app store listing. From
@@ -12,22 +12,11 @@ export default function PhoneScreens({ name, screens }) {
       {screens.map(({ src, alt, caption }) => (
         <li key={caption} className="w-[62%] shrink-0 snap-start xs:w-auto">
           <figure>
-            {/* The bezel. Radii are percentages so the corners scale with
-                the phone; after the slash is the vertical radius, which
-                accounts for the phone's tall shape. */}
-            <div className="rounded-[14%/6.64%] bg-device p-[2.5%] shadow-lg shadow-float ring-1 ring-device-edge">
-              <Image
-                src={src}
-                alt={alt}
-                placeholder="blur"
-                sizes="(min-width: 1536px) 208px, (min-width: 1280px) 168px, (min-width: 1024px) 136px, (min-width: 640px) 208px, 52vw"
-                className="aspect-[9/19.5] h-auto w-full rounded-[12.1%/5.59%]"
-                // A style, not classes: next/image sizes the blur placeholder
-                // from it. Cover trims the few pixels by which a screenshot
-                // misses 9:19.5, from the bottom edge.
-                style={{ objectFit: "cover", objectPosition: "top" }}
-              />
-            </div>
+            <PhoneFrame
+              src={src}
+              alt={alt}
+              sizes="(min-width: 1536px) 208px, (min-width: 1280px) 168px, (min-width: 1024px) 136px, (min-width: 640px) 208px, 52vw"
+            />
             <figcaption className="mt-3 text-center text-sm text-body">
               {caption}
             </figcaption>

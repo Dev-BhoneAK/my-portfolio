@@ -1,12 +1,15 @@
 import { motion } from "framer-motion";
-import { FiLock } from "react-icons/fi";
+import { FiArrowRight, FiLock } from "react-icons/fi";
 
 import EmailLink from "@/app/components/common/EmailLink";
 import ExternalLink from "@/app/components/common/ExternalLink";
-import { revealVariants } from "@/app/utils/motion";
+import StatusPill from "@/app/components/common/StatusPill";
+import { caseStudyPath } from "@/app/utils/caseStudies";
+import { revealOnScroll } from "@/app/utils/motion";
 import { projectId } from "@/app/utils/projectsData";
 import { emailAddress } from "@/app/utils/socialLinks";
 import { chipClassName, focusRing } from "@/app/utils/styles";
+import DesktopScreen from "./DesktopScreen";
 import PhoneScreens from "./PhoneScreens";
 
 // From lg up, a reverse row puts its screenshots on the left.
@@ -25,15 +28,19 @@ const columns = {
 
 // One project row. Below lg it reads top to bottom: name, screenshots, then
 // stack and links. From lg up the text sits beside the screenshots, and the
-// 1fr rows above and below it center it against them.
+// 1fr rows above and below it center it against them. A desktop project shows
+// its one screenshot in a browser window where the others show phones.
 export default function ProjectItem({ project, reverse = false }) {
   const {
     name,
     kind,
+    status,
     description,
     stack,
     links = [],
     demoOnRequest,
+    caseStudy,
+    device,
     screens,
   } = project;
   const demoMailto = `mailto:${emailAddress}?subject=${encodeURIComponent(
@@ -45,23 +52,27 @@ export default function ProjectItem({ project, reverse = false }) {
     <motion.li
       id={projectId(project)}
       className={`grid scroll-mt-12 gap-y-6 ${layout.row} lg:grid-rows-[1fr_auto_auto_1fr] lg:gap-x-12 lg:gap-y-0 xl:gap-x-16`}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "0px 0px -10% 0px" }}
-      variants={revealVariants}
+      {...revealOnScroll}
     >
       <div className={`${layout.text} lg:row-start-2`}>
         <p className="text-sm font-medium text-accent">{kind}</p>
-        <h3 className="mt-2 text-2xl font-semibold tracking-tight text-heading">
-          {name}
-        </h3>
+        <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-2">
+          <h3 className="text-2xl font-semibold tracking-tight text-heading">
+            {name}
+          </h3>
+          {status && <StatusPill>{status}</StatusPill>}
+        </div>
         <p className="mt-3 max-w-xl leading-relaxed text-body">
           {description}
         </p>
       </div>
 
       <div className={`${layout.screens} lg:row-span-4 lg:row-start-1`}>
-        <PhoneScreens name={name} screens={screens} />
+        {device === "desktop" ? (
+          <DesktopScreen screen={screens[0]} />
+        ) : (
+          <PhoneScreens name={name} screens={screens} />
+        )}
       </div>
 
       <div className={`${layout.text} lg:row-start-3 lg:mt-6`}>
@@ -72,8 +83,21 @@ export default function ProjectItem({ project, reverse = false }) {
             </li>
           ))}
         </ul>
-        {(links.length > 0 || demoOnRequest) && (
+        {(caseStudy || links.length > 0 || demoOnRequest) && (
           <div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm">
+            {/* It stays on the site, so → rather than the ↗ of the links. */}
+            {caseStudy && (
+              <a
+                href={caseStudyPath(caseStudy)}
+                className={`group inline-flex items-center gap-1 font-semibold text-accent transition-colors hover:text-accent-hover ${focusRing}`}
+              >
+                Read the case study
+                <FiArrowRight
+                  aria-hidden="true"
+                  className="-mt-0.5 shrink-0 text-[0.9em] transition-transform group-hover:translate-x-0.5"
+                />
+              </a>
+            )}
             {links.map(({ label, url }) => (
               <ExternalLink
                 key={url}
