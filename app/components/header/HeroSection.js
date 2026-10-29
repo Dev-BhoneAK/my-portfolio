@@ -19,7 +19,11 @@ const firstYear = careerData[careerData.length - 1].start.slice(0, 4);
 
 const facts = [
     { label: "Experience", value: "10+ years", detail: `Since ${firstYear}` },
-    { label: "Languages", value: "English, Japanese", detail: "JLPT N4" },
+    {
+        label: "Languages",
+        value: "English, Japanese",
+        detail: "Daily conversation",
+    },
     { label: "Based in", value: "Yangon, Myanmar", detail: "UTC+6:30" },
 ];
 
