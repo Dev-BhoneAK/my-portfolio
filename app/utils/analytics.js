@@ -1,3 +1,4 @@
+import { resumeFiles, resumePath } from "@/app/utils/resume";
 import { githubLink, linkedinLink, xLink } from "@/app/utils/socialLinks";
 
 // Google Analytics 4. Set only in Vercel's production environment, so dev
@@ -110,6 +111,14 @@ const profiles = {
   [xLink.href]: "x",
 };
 
+// The hero's direct links to one language's resume, by their encoded path.
+const resumeLanguages = Object.fromEntries(
+  Object.entries(resumeFiles).map(([language, file]) => [
+    encodeURI(file),
+    language,
+  ]),
+);
+
 // The part of the page an element is in: the hero (the header, which on a
 // case study holds its cover), a section's id (work, projects, a case
 // study's problem…) or the footer.
@@ -145,7 +154,13 @@ function eventForLink(link) {
   const entry_id = link.closest("li[id]")?.id;
 
   if (href.startsWith("mailto:")) return ["email_click", { section, entry_id }];
-  if (href.endsWith(".pdf")) return ["resume_download", { section }];
+  if (href === resumePath) return ["resume_download", { section }];
+  if (resumeLanguages[link.pathname]) {
+    return [
+      "resume_download",
+      { section, language: resumeLanguages[link.pathname] },
+    ];
+  }
   if (href.startsWith("#")) {
     return [
       "nav_click",

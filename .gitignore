@@ -33,3 +33,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# editable resume sources (full versions hold private details; only exported
+# web copies go in public/)
+/resume-source/

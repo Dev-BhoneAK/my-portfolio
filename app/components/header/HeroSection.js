@@ -9,10 +9,15 @@ import { SiAmazonaws } from "react-icons/si";
 import EmailLink from "@/app/components/common/EmailLink";
 import careerData, { roleId } from "@/app/utils/careerData";
 import { revealClassName, revealDelay } from "@/app/utils/motion";
+import { resumeFiles, resumePath } from "@/app/utils/resume";
 import { emailLink, githubLink, linkedinLink } from "@/app/utils/socialLinks";
 import { eyebrowClassName, focusRing } from "@/app/utils/styles";
 
 const socialLinks = [githubLink, linkedinLink, emailLink];
+
+// The vertical padding only widens the tap target; inline, it doesn't move
+// the line.
+const resumeLanguageLink = `rounded-sm py-1 font-medium text-accent transition-colors hover:text-accent-hover ${focusRing}`;
 
 // careerData is newest first, so the last role is where the career started.
 const firstYear = careerData[careerData.length - 1].start.slice(0, 4);
@@ -97,10 +102,12 @@ export default function HeroSection() {
                             className="-mt-0.5 transition-transform group-hover:translate-y-0.5"
                         />
                     </a>
-                    {/* Downloads keep the PDF's own name: Vercel sends it as the
-                        Content-Disposition filename, which overrides download="…". */}
+                    {/* middleware.js redirects this to the English PDF or the
+                        Japanese zip. Downloads keep the file's own name: Vercel
+                        sends it as the Content-Disposition filename, which
+                        overrides download="…". */}
                     <a
-                        href="/BHONE%20AUNG%20KYAW%20-%20Resume.pdf"
+                        href={resumePath}
                         download
                         className={`inline-flex items-center justify-center gap-2 rounded-full border border-line-strong px-7 pb-3 pt-3.5 font-semibold text-heading transition-colors hover:border-highlight hover:text-highlight ${focusRing}`}
                     >
@@ -108,8 +115,11 @@ export default function HeroSection() {
                         Download resume
                     </a>
                     {/* At lg the column is too narrow, so this row always wraps;
-                        the negative margin lines the first icon up with the text. */}
-                    <ul className="flex items-center justify-center gap-1 lg:-ml-3 xl:ml-0">
+                        the negative margin lines the first icon up with the text.
+                        Wherever the icons get a line of their own (phones, and
+                        lg) they go last, so the language line below stays under
+                        the buttons. */}
+                    <ul className="order-last flex items-center justify-center gap-1 xs:order-none lg:-ml-3 lg:order-last xl:ml-0 xl:order-none">
                         {socialLinks.map(({ label, href, Icon }) => {
                             const LinkTag = href.startsWith("mailto:")
                                 ? EmailLink
@@ -131,6 +141,29 @@ export default function HeroSection() {
                             );
                         })}
                     </ul>
+                    {/* The button guesses the language from the browser; these
+                        let anyone take the other one. */}
+                    <p className="text-center text-sm text-muted xs:basis-full xs:text-left">
+                        Resume in{" "}
+                        <a
+                            href={encodeURI(resumeFiles.en)}
+                            hrefLang="en"
+                            download
+                            className={resumeLanguageLink}
+                        >
+                            English
+                        </a>
+                        {" · "}
+                        <a
+                            href={encodeURI(resumeFiles.ja)}
+                            hrefLang="ja"
+                            lang="ja"
+                            download
+                            className={resumeLanguageLink}
+                        >
+                            日本語
+                        </a>
+                    </p>
                 </div>
 
                 <dl
