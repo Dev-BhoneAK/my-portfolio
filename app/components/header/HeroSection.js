@@ -6,18 +6,16 @@ import {
 } from "react-icons/fi";
 import { SiAmazonaws } from "react-icons/si";
 
+import { useEffect, useState } from "react";
+
 import EmailLink from "@/app/components/common/EmailLink";
 import careerData, { roleId } from "@/app/utils/careerData";
 import { revealClassName, revealDelay } from "@/app/utils/motion";
-import { resumeFiles, resumePath } from "@/app/utils/resume";
+import { resumeFiles, resumeLanguage, resumePath } from "@/app/utils/resume";
 import { emailLink, githubLink, linkedinLink } from "@/app/utils/socialLinks";
 import { eyebrowClassName, focusRing } from "@/app/utils/styles";
 
 const socialLinks = [githubLink, linkedinLink, emailLink];
-
-// The vertical padding only widens the tap target; inline, it doesn't move
-// the line.
-const resumeLanguageLink = `rounded-sm py-1 font-medium text-accent transition-colors hover:text-accent-hover ${focusRing}`;
 
 // careerData is newest first, so the last role is where the career started.
 const firstYear = careerData[careerData.length - 1].start.slice(0, 4);
@@ -53,6 +51,16 @@ const certifications = [
 ];
 
 export default function HeroSection() {
+    // The button already guesses the visitor's language from the browser;
+    // this offers only the other one, for when the guess is wrong. The guess
+    // itself needs navigator.language, which isn't known at build time, so
+    // it waits for mount.
+    const [altResumeLang, setAltResumeLang] = useState(null);
+    useEffect(() => {
+        const downloadLang = resumeLanguage(navigator.language, null);
+        setAltResumeLang(downloadLang === "ja" ? "en" : "ja");
+    }, []);
+
     return (
         <section className="my-auto grid items-center gap-12 py-12 lg:grid-cols-[minmax(0,1fr)_24rem] lg:gap-12 xl:grid-cols-[minmax(0,1fr)_27rem] xl:gap-20">
             <div>
@@ -90,7 +98,7 @@ export default function HeroSection() {
 
                 <div
                     style={revealDelay(4)}
-                    className={`${revealClassName} mt-8 flex flex-col gap-3 xs:flex-row xs:flex-wrap xs:items-center`}
+                    className={`${revealClassName} mt-8 flex flex-col gap-3 xs:flex-row xs:flex-wrap xs:items-start`}
                 >
                     <a
                         href="#work"
@@ -102,24 +110,46 @@ export default function HeroSection() {
                             className="-mt-0.5 transition-transform group-hover:translate-y-0.5"
                         />
                     </a>
-                    {/* middleware.js redirects this to the English PDF or the
-                        Japanese zip. Downloads keep the file's own name: Vercel
-                        sends it as the Content-Disposition filename, which
-                        overrides download="…". */}
-                    <a
-                        href={resumePath}
-                        download
-                        className={`inline-flex items-center justify-center gap-2 rounded-full border border-line-strong px-7 pb-3 pt-3.5 font-semibold text-heading transition-colors hover:border-highlight hover:text-highlight ${focusRing}`}
-                    >
-                        <FiDownload aria-hidden="true" className="-mt-0.5" />
-                        Download resume
-                    </a>
-                    {/* At lg the column is too narrow, so this row always wraps;
-                        the negative margin lines the first icon up with the text.
-                        Wherever the icons get a line of their own (phones, and
-                        lg) they go last, so the language line below stays under
-                        the buttons. */}
-                    <ul className="order-last flex items-center justify-center gap-1 xs:order-none lg:-ml-3 lg:order-last xl:ml-0 xl:order-none">
+                    <div className="flex flex-col items-center gap-1.5">
+                        {/* middleware.js redirects this to the English PDF or
+                            the Japanese zip. Downloads keep the file's own
+                            name: Vercel sends it as the Content-Disposition
+                            filename, which overrides download="…". */}
+                        <a
+                            href={resumePath}
+                            download
+                            className={`inline-flex items-center justify-center gap-2 rounded-full border border-line-strong px-7 pb-3 pt-3.5 font-semibold text-heading transition-colors hover:border-highlight hover:text-highlight ${focusRing}`}
+                        >
+                            <FiDownload
+                                aria-hidden="true"
+                                className="-mt-0.5"
+                            />
+                            Download resume
+                        </a>
+                        {altResumeLang && (
+                            <p className="text-sm text-muted">
+                                Resume in{" "}
+                                <a
+                                    href={encodeURI(
+                                        resumeFiles[altResumeLang],
+                                    )}
+                                    hrefLang={altResumeLang}
+                                    lang={
+                                        altResumeLang === "ja"
+                                            ? "ja"
+                                            : undefined
+                                    }
+                                    download
+                                    className={`rounded-sm font-medium text-accent transition-colors hover:text-accent-hover ${focusRing}`}
+                                >
+                                    {altResumeLang === "ja"
+                                        ? "日本語"
+                                        : "English"}
+                                </a>
+                            </p>
+                        )}
+                    </div>
+                    <ul className="flex items-center justify-center gap-1">
                         {socialLinks.map(({ label, href, Icon }) => {
                             const LinkTag = href.startsWith("mailto:")
                                 ? EmailLink
@@ -141,29 +171,6 @@ export default function HeroSection() {
                             );
                         })}
                     </ul>
-                    {/* The button guesses the language from the browser; these
-                        let anyone take the other one. */}
-                    <p className="text-center text-sm text-muted xs:basis-full xs:text-left">
-                        Resume in{" "}
-                        <a
-                            href={encodeURI(resumeFiles.en)}
-                            hrefLang="en"
-                            download
-                            className={resumeLanguageLink}
-                        >
-                            English
-                        </a>
-                        {" · "}
-                        <a
-                            href={encodeURI(resumeFiles.ja)}
-                            hrefLang="ja"
-                            lang="ja"
-                            download
-                            className={resumeLanguageLink}
-                        >
-                            日本語
-                        </a>
-                    </p>
                 </div>
 
                 <dl

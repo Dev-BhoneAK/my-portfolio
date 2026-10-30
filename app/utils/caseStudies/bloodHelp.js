@@ -57,10 +57,6 @@ const donorStatuses = {
 const bloodHelp = {
     // Sets Blood Help's red, from globals.css.
     className: "case-blood-help",
-    stats: [
-        { value: "500+", label: "registered donors" },
-        { value: "200+", label: "requests fulfilled" },
-    ],
     // No live link: a test request would alert real donors nearby.
     sourceUrl: "https://github.com/heinthaw-dev/blood-help",
     coverScreens: [requestForm, donorStatuses, leaderboard],

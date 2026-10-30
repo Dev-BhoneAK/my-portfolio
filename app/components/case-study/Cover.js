@@ -158,7 +158,7 @@ export default function Cover({ caseStudy, backHref }) {
           </div>
         </div>
       ) : (
-        <div className="grid items-center gap-12 py-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16 xl:gap-20">
+        <div className="grid items-start gap-12 py-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16 xl:gap-20">
           <div>
             {heading}
             <div className="mt-5">{details}</div>
